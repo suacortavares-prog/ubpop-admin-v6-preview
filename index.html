@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UB-POP | Administração V6 — Catálogo PDF e Produtos</title>
+<style>
+:root{--navy:#10243a;--blue:#1769aa;--bg:#f3f6fa;--card:#fff;--text:#1c2938;--muted:#6b7888;--line:#e3e9f0;--green:#16845b;--orange:#b66a12}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--navy);color:white;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:800;letter-spacing:.5px;font-size:20px}.brand small{display:block;font-weight:400;font-size:11px;opacity:.75;letter-spacing:1.5px;margin-top:3px}
+.layout{display:grid;grid-template-columns:245px 1fr;min-height:calc(100vh - 64px)}
+nav{background:#fff;border-right:1px solid var(--line);padding:14px;overflow:auto}
+nav button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:11px 12px;border-radius:8px;margin:2px 0;color:#35465a;font-size:14px;cursor:pointer}
+nav button.active,nav button:hover{background:#eaf3fb;color:#125b96;font-weight:700}
+main{padding:24px;max-width:1400px;width:100%;margin:auto}
+h1{font-size:25px;margin:0 0 6px}h2{font-size:18px;margin:0 0 14px}.sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px;box-shadow:0 2px 8px #10243a08}
+.metric{font-size:27px;font-weight:800;margin:8px 0 3px}.muted{color:var(--muted);font-size:12px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:15px 0}
+input,select,textarea{font:inherit;border:1px solid #ccd6e0;border-radius:8px;padding:10px;background:white;min-width:0}
+input,select{height:40px}textarea{width:100%;min-height:80px}
+button.primary{background:var(--blue);color:white;border:0;border-radius:8px;padding:10px 15px;font-weight:700;cursor:pointer}
+button.secondary{background:white;color:#27415b;border:1px solid var(--line);border-radius:8px;padding:9px 13px;cursor:pointer}
+button.danger{background:#fff1f0;color:#a33;border:1px solid #f2d0cc;border-radius:8px;padding:7px 10px;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e9f7f0;color:var(--green);font-size:11px}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px}.field input,.field select{width:100%}
+.notice{background:#fff8e9;border:1px solid #f0dfb8;border-radius:10px;padding:13px;color:#76521c;font-size:13px;line-height:1.5}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.authbox{max-width:460px;margin:8vh auto;padding:24px}
+.authbox h1{margin-bottom:8px}.authbox .field{margin:14px 0}.authbox input{width:100%}
+.authmessage{margin-top:12px;color:#a33;font-size:13px;line-height:1.5}
+#authArea{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}
+#authArea button{background:#fff;color:var(--navy);border:0;border-radius:7px;padding:7px 10px;font-weight:700;cursor:pointer}
+@media(max-width:850px){.layout{display:block;grid-template-columns:1fr;min-height:0}nav{display:flex;flex-direction:column;align-items:stretch;flex-wrap:nowrap;overflow:visible;border-right:0;border-bottom:1px solid var(--line);gap:5px;min-height:0;height:auto;padding:10px 14px}nav button{display:block;flex:0 0 auto;white-space:normal;width:100%;height:auto;min-height:44px;margin:0;text-align:left;padding:12px 14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:16px;min-width:0}}
+@media(max-width:520px){.grid{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}header{padding:13px 16px;flex-wrap:wrap}header #authArea{max-width:100%;font-size:13px}}
+#menuToggle{display:none;background:#fff;color:var(--navy);border:0;border-radius:8px;width:44px;height:44px;font-size:28px;line-height:1;cursor:pointer;box-shadow:0 1px 4px #0002}
+@media(max-width:850px){
+ #menuToggle{
+   display:inline-flex;align-items:center;justify-content:center;
+   position:fixed;left:12px;top:10px;z-index:1200;
+   width:44px;height:44px;border-radius:10px;
+   box-shadow:0 2px 8px #0003
+ }
+ header{padding-left:68px}
+ #mainLayout #menu{
+   display:flex;flex-direction:column;align-items:stretch;
+   position:fixed;left:0;top:0;bottom:0;
+   width:min(82vw,320px);height:100dvh;max-height:100dvh;
+   overflow-y:auto;overflow-x:hidden;
+   background:#fff;border-right:1px solid var(--line);
+   border-bottom:0;box-shadow:8px 0 28px #0002;
+   z-index:1100;padding:72px 14px 18px;
+   transform:translateX(-105%);transition:transform .24s ease;
+   visibility:hidden;pointer-events:none
+ }
+ #mainLayout.menu-visible #menu{
+   transform:translateX(0);visibility:visible;pointer-events:auto
+ }
+ #mainLayout.menu-hidden #menu{
+   transform:translateX(-105%);visibility:hidden;pointer-events:none
+ }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">UB-POP <small>PLATAFORMA DE PUBLICIDADE E CATÁLOGOS</small></div>
+  <div id="authArea">Painel administrativo · V6 — QR Codes e interações</div>
+  <button id="menuToggle" type="button" aria-label="Abrir ou ocultar menu" aria-expanded="false">⋮</button>
+</header>
+<div class="layout" id="mainLayout">
+<nav id="menu">
+<button class="active" data-page="inicio">▦ Visão geral</button>
+<button data-page="anunciantes">♙ Anunciantes</button>
+<button data-page="lojas">▣ Estabelecimentos</button>
+<button data-page="segmentos">▤ Segmentos</button>
+<button data-page="produtos">◇ Produtos e serviços</button>
+<button data-page="campanhas">◉ Publicidade e campanhas</button>
+<button data-page="grade">☷ Programação das telas</button>
+<button data-page="midias">▣ Biblioteca de mídias</button>
+<button data-page="regioes">⌖ Regiões</button>
+<button data-page="veiculos">▣ Veículos e telas</button>
+<button data-page="conteudos">▧ Conteúdos interativos</button>
+<button data-page="encaminhamentos">↗ Encaminhamentos</button>
+<button data-page="catalogos">▣ Gestão de Catálogos</button>
+<button data-page="qrcodes">▦ QR Codes V6</button>
+<button data-page="relatorios">▥ Relatórios</button>
+<button data-page="usuarios">♧ Usuários e permissões</button>
+</nav>
+<main id="app"></main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/*
+  UB-POP V2 — integração inicial.
+  A chave publishable é própria para uso no navegador.
+  Nunca coloque service_role/secret keys neste arquivo.
+*/
+const SUPABASE_URL = "https://hlkfygzkzswhclacpqcx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_PlTz-XRXcxgVUx75sbJIdw_tUAeB85y";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const initial={
+ anunciantes:[],lojas:[],segmentos:[{nome:"Restaurantes",status:"Ativo"},{nome:"Farmácias",status:"Ativo"},{nome:"Mercados",status:"Ativo"},{nome:"Vestuário",status:"Ativo"}],
+ produtos:[],campanhas:[],regioes:[{nome:"Aparecida de Goiânia",estado:"GO"},{nome:"Goiânia",estado:"GO"}],
+ veiculos:[],encaminhamentos:[],usuarios:[],grade:[
+ {tipo:"Publicidade interativa",conteudo:"Anunciante A"},
+ {tipo:"Publicidade simples",conteudo:"Anunciante B"},
+ {tipo:"Conteúdo interativo",conteudo:"Previsão do tempo"},
+ {tipo:"Catálogo central",conteudo:"Segmentos UB-POP"}
+ ]};
+let db=JSON.parse(localStorage.getItem("ubpop_demo_db")||"null")||initial;
+["anunciantes","lojas","segmentos","produtos","campanhas","regioes","veiculos","encaminhamentos","usuarios","grade"].forEach(k=>{
+ if(!Array.isArray(db[k])) db[k]=Array.isArray(initial[k]) ? [...initial[k]] : [];
+});
+const save=()=>localStorage.setItem("ubpop_demo_db",JSON.stringify(db));
+const app=document.getElementById("app");
+const menu=document.getElementById("menu");
+const layout=document.getElementById("mainLayout");
+const authArea=document.getElementById("authArea");
+const titles={inicio:"Visão geral",anunciantes:"Anunciantes",lojas:"Estabelecimentos",segmentos:"Segmentos comerciais",produtos:"Produtos e serviços",campanhas:"Publicidade e campanhas",grade:"Programação central das telas",midias:"Biblioteca de mídias",regioes:"Gestão regional",veiculos:"Veículos e telas",conteudos:"Conteúdos interativos",encaminhamentos:"Encaminhamentos",catalogos:"Gestão de Catálogos",qrcodes:"QR Codes e interações V6",relatorios:"Relatórios",usuarios:"Usuários e permissões"};
+let page="inicio";
+let currentUser=null;
+let authBusy=false;
+let editingAdvertiserId=null;
+let editingEstablishmentId=null;
+let activeRegions=[];
+let activeSegments=[];
+
+function count(k){return db[k]?.length||0}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function showLogin(message=""){
+ menu.style.display="none";
+ layout.style.gridTemplateColumns="1fr";
+ authArea.textContent="Acesso administrativo";
+ app.innerHTML=`<div class="card authbox">
+   <h1>Entrar na UB-POP</h1>
+   <div class="sub">Acesso restrito ao administrador autorizado.</div>
+   <form id="loginForm">
+     <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" name="email" type="email" autocomplete="username" required placeholder="Seu e-mail de administrador"></div>
+     <div class="field"><label for="loginPassword">Senha</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required placeholder="Sua senha"></div>
+     <button class="primary" id="loginButton" type="submit">Entrar</button>
+     <div class="authmessage" id="loginMessage">${escapeHtml(message)}</div>
+   </form>
+ </div>`;
+ document.getElementById("loginForm").onsubmit=login;
+}
+
+async function login(event){
+ event.preventDefault();
+ if(authBusy)return;
+ authBusy=true;
+ const button=document.getElementById("loginButton");
+ const message=document.getElementById("loginMessage");
+ button.disabled=true;button.textContent="Verificando...";
+ message.textContent="";
+ const email=document.getElementById("loginEmail").value.trim();
+ const password=document.getElementById("loginPassword").value;
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+ authBusy=false;
+ if(error){
+   button.disabled=false;button.textContent="Entrar";
+   message.textContent="Não foi possível entrar: "+error.message;
+   return;
+ }
+ await verifyAdmin(data.user);
+}
+
+async function verifyAdmin(user){
+ if(!user){
+   currentUser=null;showLogin("Sessão não identificada. Entre novamente.");return;
+ }
+ const {data:profile,error}=await supabaseClient
+   .from("profiles").select("id,full_name,role").eq("id",user.id).maybeSingle();
+ if(error || !profile || profile.role!=="admin"){
+   await supabaseClient.auth.signOut();
+   currentUser=null;
+   showLogin("Este usuário não possui perfil de administrador UB-POP. Verifique a conta cadastrada.");
+   return;
+ }
+ currentUser={id:user.id,email:user.email,name:profile.full_name||user.email};
+ authArea.innerHTML=`<span>Administrador: ${escapeHtml(currentUser.name)}</span><button id="logoutButton" type="button">Sair</button>`;
+ document.getElementById("logoutButton").onclick=logout;
+ menu.style.display="";
+ layout.style.gridTemplateColumns="";
+ await loadAdvertisers();
+ await loadEstablishments();
+ page="inicio";
+ render();
+}
+
+async function logout(){
+ await supabaseClient.auth.signOut();
+ currentUser=null;
+ db.anunciantes=[];
+ showLogin("Você saiu do painel administrativo.");
+}
+
+async function loadAdvertisers(){
+ if(!currentUser)return;
+ db.anunciantes=[];
+ const {data,error}=await supabaseClient
+   .from("advertisers")
+   .select("id,legal_name,trade_name,cnpj,contact_name,contact_email,phone,status,created_at")
+   .order("created_at",{ascending:false});
+ if(error){
+   alert("Não foi possível carregar os anunciantes: "+error.message);
+   return;
+ }
+ db.anunciantes=(data||[]).map(r=>({
+   id:r.id,nome:r.trade_name,razao_social:r.legal_name||"",documento:r.cnpj||"",
+   responsavel:r.contact_name||"",email:r.contact_email||"",contato:r.phone||"",
+   status:r.status,created_at:r.created_at
+ }));
+}
+
+async function renderAdvertisers(){
+ app.innerHTML=`<h1>Anunciantes</h1>
+ <div class="sub">Os registros desta área são consultados e salvos diretamente no Supabase.</div>
+ <div class="card">
+   <h2 id="advertiserFormTitle">Novo anunciante</h2>
+   <form id="advertiserForm" class="formgrid">
+     <div class="field"><label>Nome comercial *</label><input name="nome" required maxlength="160" placeholder="Nome usado pelo público"></div>
+     <div class="field"><label>Razão social (opcional)</label><input name="razao_social" maxlength="180" placeholder="Razão social"></div>
+     <div class="field"><label>CNPJ/CPF (opcional)</label><input name="documento" maxlength="30" placeholder="Documento"></div>
+     <div class="field"><label>Responsável</label><input name="responsavel" maxlength="160" placeholder="Nome do responsável"></div>
+     <div class="field"><label>Telefone/WhatsApp</label><input name="contato" maxlength="40" placeholder="Telefone com DDD"></div>
+     <div class="field"><label>E-mail de contato</label><input name="email" type="email" maxlength="180" placeholder="contato@empresa.com"></div>
+     <div class="field" style="grid-column:1/-1"><div class="actions"><button class="primary" id="saveAdvertiserButton" type="submit">Salvar no banco online</button><button class="secondary" id="cancelAdvertiserEdit" type="button" style="display:none">Cancelar edição</button></div></div>
+   </form>
+ </div>
+ <div class="card" style="margin-top:16px">
+   <div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">Anunciantes cadastrados</h2><button class="secondary" id="refreshAdvertisers" type="button">Atualizar lista</button></div>
+   <div id="advertiserTable"><div class="empty">Carregando registros...</div></div>
+ </div>
+ <div class="notice" style="margin-top:14px">Os novos registros recebem automaticamente a situação inicial “pending” no banco. A modalidade comercial ainda não é gravada porque a tabela atual não possui esse campo.</div>`;
+ document.getElementById("advertiserForm").onsubmit=saveAdvertiser;
+ document.getElementById("cancelAdvertiserEdit").onclick=cancelAdvertiserEdit;
+ document.getElementById("refreshAdvertisers").onclick=async()=>{await loadAdvertisers();drawAdvertiserTable();};
+ drawAdvertiserTable();
+}
+
+function drawAdvertiserTable(){
+ const target=document.getElementById("advertiserTable");
+ if(!target)return;
+ const rows=db.anunciantes||[];
+ if(!rows.length){target.innerHTML='<div class="empty">Nenhum anunciante cadastrado no banco online.</div>';return;}
+ target.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Nome comercial</th><th>CNPJ/CPF</th><th>Responsável</th><th>Telefone</th><th>Situação</th><th>Ações</th></tr></thead><tbody>
+ ${rows.map((r,i)=>`<tr><td>${escapeHtml(r.nome)}</td><td>${escapeHtml(r.documento||"—")}</td><td>${escapeHtml(r.responsavel||"—")}</td><td>${escapeHtml(r.contato||"—")}</td><td>${escapeHtml(r.status||"pending")}</td><td><div class="actions"><button class="secondary" type="button" onclick="editAdvertiser(${i})">Editar</button><button class="danger" type="button" onclick="deleteAdvertiser(${i})">Excluir</button></div></td></tr>`).join("")}
+ </tbody></table></div>`;
+}
+
+function editAdvertiser(index){
+ const item=db.anunciantes[index];
+ if(!item?.id)return;
+ const form=document.getElementById("advertiserForm");
+ if(!form)return;
+ editingAdvertiserId=item.id;
+ form.elements.nome.value=item.nome||"";
+ form.elements.razao_social.value=item.razao_social||"";
+ form.elements.documento.value=item.documento||"";
+ form.elements.responsavel.value=item.responsavel||"";
+ form.elements.contato.value=item.contato||"";
+ form.elements.email.value=item.email||"";
+ document.getElementById("advertiserFormTitle").textContent="Editar anunciante";
+ document.getElementById("saveAdvertiserButton").textContent="Salvar alterações no banco online";
+ document.getElementById("cancelAdvertiserEdit").style.display="inline-block";
+ form.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function cancelAdvertiserEdit(){
+ editingAdvertiserId=null;
+ const form=document.getElementById("advertiserForm");
+ if(form)form.reset();
+ const title=document.getElementById("advertiserFormTitle");
+ const button=document.getElementById("saveAdvertiserButton");
+ const cancel=document.getElementById("cancelAdvertiserEdit");
+ if(title)title.textContent="Novo anunciante";
+ if(button)button.textContent="Salvar no banco online";
+ if(cancel)cancel.style.display="none";
+}
+
+async function saveAdvertiser(event){
+ event.preventDefault();
+ if(!currentUser){showLogin("Entre novamente para continuar.");return;}
+ const form=event.currentTarget;
+ const button=document.getElementById("saveAdvertiserButton");
+ const values=Object.fromEntries(new FormData(form).entries());
+ const tradeName=values.nome.trim();
+ if(!tradeName){alert("Informe o nome comercial.");return;}
+ button.disabled=true;button.textContent=editingAdvertiserId?"Atualizando...":"Salvando...";
+ const payload={
+   trade_name:tradeName,
+   legal_name:values.razao_social.trim()||null,
+   cnpj:values.documento.trim()||null,
+   contact_name:values.responsavel.trim()||null,
+   contact_email:values.email.trim()||null,
+   phone:values.contato.trim()||null
+ };
+ let result;
+ if(editingAdvertiserId){
+   result=await supabaseClient.from("advertisers").update(payload).eq("id",editingAdvertiserId);
+ }else{
+   result=await supabaseClient.from("advertisers").insert(payload);
+ }
+ button.disabled=false;
+ if(result.error){
+   button.textContent=editingAdvertiserId?"Salvar alterações no banco online":"Salvar no banco online";
+   alert("O Supabase não aceitou a operação. Detalhe: "+result.error.message);
+   return;
+ }
+ const wasEditing=Boolean(editingAdvertiserId);
+ cancelAdvertiserEdit();
+ await loadAdvertisers();
+ drawAdvertiserTable();
+ alert(wasEditing?"Alterações salvas no banco online com sucesso.":"Anunciante salvo no banco online com sucesso.");
+}
+
+async function deleteAdvertiser(index){
+ const item=db.anunciantes[index];
+ if(!item?.id)return;
+ if(!confirm("Excluir o anunciante "+item.nome+" do banco online?"))return;
+ const {error}=await supabaseClient.from("advertisers").delete().eq("id",item.id);
+ if(error){alert("Não foi possível excluir: "+error.message);return;}
+ await loadAdvertisers();
+ drawAdvertiserTable();
+ alert("Anunciante excluído do banco online.");
+}
+
+async function loadEstablishments(){
+ if(!currentUser)return;
+ const [estRes,regRes,segRes]=await Promise.all([
+  supabaseClient.from("establishments").select("id,advertiser_id,region_id,segment_id,name,address,phone,whatsapp,instagram,website,sales_channel_type,sales_channel_url,status,created_at").order("created_at",{ascending:false}),
+  supabaseClient.from("regions").select("id,name,city,state,active").eq("active",true).order("name"),
+  supabaseClient.from("segments").select("id,name,description,active").eq("active",true).order("name")
+ ]);
+ if(estRes.error){alert("Não foi possível carregar os estabelecimentos: "+estRes.error.message);return;}
+ if(regRes.error){alert("Não foi possível carregar as regiões: "+regRes.error.message);return;}
+ if(segRes.error){alert("Não foi possível carregar os segmentos: "+segRes.error.message);return;}
+ activeRegions=regRes.data||[];
+ activeSegments=segRes.data||[];
+ db.lojas=(estRes.data||[]).map(r=>({
+  id:r.id,advertiser_id:r.advertiser_id,region_id:r.region_id,segment_id:r.segment_id,
+  nome:r.name,endereco:r.address||"",telefone:r.phone||"",whatsapp:r.whatsapp||"",
+  instagram:r.instagram||"",site:r.website||"",sales_channel_type:r.sales_channel_type||"",sales_channel_url:r.sales_channel_url||"",status:r.status||"pending"
+ }));
+}
+
+async function renderEstablishments(){
+ await loadEstablishments();
+ const advertiserOptions=(db.anunciantes||[]).map(a=>`<option value="${escapeHtml(a.id)}">${escapeHtml(a.nome)}</option>`).join("");
+ const regionOptions=activeRegions.map(r=>`<option value="${escapeHtml(r.id)}">${escapeHtml(r.name)}${r.city?" — "+escapeHtml(r.city):""}${r.state?"/"+escapeHtml(r.state):""}</option>`).join("");
+ const segmentOptions=activeSegments.map(r=>`<option value="${escapeHtml(r.id)}">${escapeHtml(r.name)}</option>`).join("");
+ app.innerHTML=`<h1>Estabelecimentos</h1>
+ <div class="sub">Cadastro conectado ao Supabase. Cada estabelecimento precisa estar vinculado a um anunciante.</div>
+ <div class="card"><h2 id="establishmentFormTitle">Novo estabelecimento</h2>
+ <form id="establishmentForm" class="formgrid">
+  <div class="field"><label>Anunciante responsável *</label><select name="advertiser_id" required><option value="">Selecione um anunciante</option>${advertiserOptions}</select></div>
+  <div class="field"><label>Nome do estabelecimento *</label><input name="nome" required maxlength="180" placeholder="Nome da loja ou unidade"></div>
+  <div class="field"><label>Região (opcional)</label><select name="region_id"><option value="">Sem região definida</option>${regionOptions}</select></div>
+  <div class="field"><label>Segmento (opcional)</label><select name="segment_id"><option value="">Sem segmento definido</option>${segmentOptions}</select></div>
+  <div class="field"><label>Endereço</label><input name="endereco" maxlength="240" placeholder="Endereço completo"></div>
+  <div class="field"><label>Telefone</label><input name="telefone" maxlength="40" placeholder="Telefone com DDD"></div>
+  <div class="field"><label>WhatsApp</label><input name="whatsapp" maxlength="40" placeholder="WhatsApp com DDD"></div>
+  <div class="field"><label>Instagram</label><input name="instagram" maxlength="160" placeholder="@perfil ou link"></div>
+  <div class="field"><label>Site ou catálogo externo</label><input name="site" type="url" maxlength="500" placeholder="https://"></div>
+  <div class="field"><label>Tipo do canal de venda</label><select name="sales_channel_type"><option value="">Não configurado</option><option value="whatsapp">WhatsApp</option><option value="website">Website</option><option value="app">Aplicativo</option><option value="other">Outro</option></select></div>
+  <div class="field"><label>Endereço HTTPS do canal de venda</label><input name="sales_channel_url" type="url" maxlength="500" placeholder="https://..."></div>
+  <div class="field" style="grid-column:1/-1"><div class="actions"><button class="primary" id="saveEstablishmentButton" type="submit">Salvar no banco online</button><button class="secondary" id="cancelEstablishmentEdit" type="button" style="display:none">Cancelar edição</button></div></div>
+ </form></div>
+ <div class="card" style="margin-top:16px"><div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">Estabelecimentos cadastrados</h2><button class="secondary" id="refreshEstablishments" type="button">Atualizar lista</button></div><div id="establishmentTable"><div class="empty">Carregando registros...</div></div></div>
+ <div class="notice" style="margin-top:14px">Os campos de região e segmento mostram apenas registros marcados como ativos no Supabase. Se uma lista estiver vazia, cadastre ou ative os itens na respectiva área antes de continuar. As regiões e segmentos são apenas consultados nesta etapa; não serão alterados por este formulário.</div>`;
+ const form=document.getElementById("establishmentForm");
+ form.onsubmit=saveEstablishment;
+ document.getElementById("cancelEstablishmentEdit").onclick=cancelEstablishmentEdit;
+ document.getElementById("refreshEstablishments").onclick=async()=>{await loadEstablishments();drawEstablishmentTable();};
+ drawEstablishmentTable();
+}
+
+function drawEstablishmentTable(){
+ const target=document.getElementById("establishmentTable");if(!target)return;
+ const rows=db.lojas||[];
+ if(!rows.length){target.innerHTML='<div class="empty">Nenhum estabelecimento cadastrado no banco online.</div>';return;}
+ const advertisers=new Map((db.anunciantes||[]).map(a=>[a.id,a.nome]));
+ const regions=new Map(activeRegions.map(r=>[r.id,[r.name,r.city,r.state].filter(Boolean).join(" — ")]));
+ const segments=new Map(activeSegments.map(r=>[r.id,r.name]));
+ target.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Estabelecimento</th><th>Anunciante</th><th>Região</th><th>Segmento</th><th>Telefone/WhatsApp</th><th>Situação</th><th>Ações</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${escapeHtml(r.nome)}</td><td>${escapeHtml(advertisers.get(r.advertiser_id)||"Vínculo não localizado")}</td><td>${escapeHtml(regions.get(r.region_id)||"—")}</td><td>${escapeHtml(segments.get(r.segment_id)||"—")}</td><td>${escapeHtml(r.whatsapp||r.telefone||"—")}</td><td>${escapeHtml(r.status)}</td><td><div class="actions"><button class="secondary" type="button" onclick="editEstablishment(${i})">Editar</button><button class="danger" type="button" onclick="deleteEstablishment(${i})">Excluir</button></div></td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function editEstablishment(index){
+ const item=db.lojas[index];if(!item?.id)return;
+ const form=document.getElementById("establishmentForm");if(!form)return;
+ editingEstablishmentId=item.id;
+ form.elements.advertiser_id.value=item.advertiser_id||"";
+ form.elements.nome.value=item.nome||"";
+ form.elements.region_id.value=item.region_id||"";
+ form.elements.segment_id.value=item.segment_id||"";
+ form.elements.endereco.value=item.endereco||"";
+ form.elements.telefone.value=item.telefone||"";
+ form.elements.whatsapp.value=item.whatsapp||"";
+ form.elements.instagram.value=item.instagram||"";
+ form.elements.site.value=item.site||"";
+ form.elements.sales_channel_type.value=item.sales_channel_type||"";
+ form.elements.sales_channel_url.value=item.sales_channel_url||"";
+ document.getElementById("establishmentFormTitle").textContent="Editar estabelecimento";
+ document.getElementById("saveEstablishmentButton").textContent="Salvar alterações no banco online";
+ document.getElementById("cancelEstablishmentEdit").style.display="inline-block";
+ form.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function cancelEstablishmentEdit(){
+ editingEstablishmentId=null;
+ const form=document.getElementById("establishmentForm");if(form)form.reset();
+ const title=document.getElementById("establishmentFormTitle");
+ const button=document.getElementById("saveEstablishmentButton");
+ const cancel=document.getElementById("cancelEstablishmentEdit");
+ if(title)title.textContent="Novo estabelecimento";
+ if(button)button.textContent="Salvar no banco online";
+ if(cancel)cancel.style.display="none";
+}
+
+async function saveEstablishment(event){
+ event.preventDefault();if(!currentUser){showLogin("Entre novamente para continuar.");return;}
+ const form=event.currentTarget;const button=document.getElementById("saveEstablishmentButton");
+ const values=Object.fromEntries(new FormData(form).entries());
+ if(!values.advertiser_id){alert("Selecione o anunciante responsável.");return;}
+ if(!values.nome.trim()){alert("Informe o nome do estabelecimento.");return;}
+ const payload={advertiser_id:values.advertiser_id,name:values.nome.trim(),region_id:values.region_id||null,segment_id:values.segment_id||null,address:values.endereco.trim()||null,phone:values.telefone.trim()||null,whatsapp:values.whatsapp.trim()||null,instagram:values.instagram.trim()||null,website:values.site.trim()||null,sales_channel_type:values.sales_channel_type||null,sales_channel_url:values.sales_channel_url.trim()||null};
+ button.disabled=true;button.textContent=editingEstablishmentId?"Atualizando...":"Salvando...";
+ let result;
+ if(editingEstablishmentId)result=await supabaseClient.from("establishments").update(payload).eq("id",editingEstablishmentId);
+ else result=await supabaseClient.from("establishments").insert(payload);
+ button.disabled=false;
+ if(result.error){button.textContent=editingEstablishmentId?"Salvar alterações no banco online":"Salvar no banco online";alert("O Supabase não aceitou a operação. Detalhe: "+result.error.message);return;}
+ const wasEditing=Boolean(editingEstablishmentId);cancelEstablishmentEdit();await loadEstablishments();drawEstablishmentTable();
+ alert(wasEditing?"Alterações do estabelecimento salvas no banco online.":"Estabelecimento salvo no banco online.");
+}
+
+async function deleteEstablishment(index){
+ const item=db.lojas[index];if(!item?.id)return;
+ if(!confirm("Excluir o estabelecimento "+item.nome+" do banco online?"))return;
+ const {error}=await supabaseClient.from("establishments").delete().eq("id",item.id);
+ if(error){alert("Não foi possível excluir: "+error.message);return;}
+ await loadEstablishments();drawEstablishmentTable();alert("Estabelecimento excluído do banco online.");
+}
+
+
+async function renderCatalogManagement(){
+ if(!currentUser){showLogin("Entre novamente para continuar.");return;}
+ app.innerHTML=`<h1>Gestão de Catálogos</h1>
+ <div class="sub">Administre catálogos próprios, integrados ou híbridos. Arquivos ficam em armazenamento privado e só administradores podem acessá-los nesta etapa.</div>
+ <div class="notice" style="margin-bottom:14px">Modalidades: <b>Catálogo UB-POP</b> (montado pela equipe), <b>Integrado</b> (link ou arquivo fornecido pelo anunciante) e <b>Híbrido</b> (material existente complementado com produtos e QR Codes individuais). A publicação exige aprovação.</div>
+ <div class="card"><h2>Novo catálogo</h2><form id="catalogCreateForm" class="formgrid">
+  <div class="field"><label>Estabelecimento *</label><select name="establishment_id" id="catalogEstablishment" required><option value="">Carregando...</option></select></div>
+  <div class="field"><label>Nome do catálogo *</label><input name="name" required maxlength="160" placeholder="Ex.: Catálogo principal"></div>
+  <div class="field"><label>Modalidade *</label><select name="management_mode"><option value="ubpop_built">Catálogo montado pelo UB-POP</option><option value="integrated">Catálogo pronto integrado</option><option value="hybrid">Catálogo híbrido</option></select></div>
+  <div class="field"><label>Formato de origem</label><select name="source_format"><option value="link">Link externo</option><option value="pdf">PDF</option><option value="images">Imagens</option><option value="mixed">Misto</option></select></div>
+  <div class="field" style="grid-column:1/-1"><label>Link externo HTTPS (quando houver)</label><input name="external_url" type="url" maxlength="1000" placeholder="https://..."></div>
+  <div class="field" style="grid-column:1/-1"><label>Descrição / observações</label><textarea name="description" maxlength="2000" placeholder="Informações sobre o catálogo, identidade visual e instruções do anunciante"></textarea></div>
+  <div class="field" style="grid-column:1/-1"><label>Arquivos iniciais (PDF ou imagens, até 20 MB por arquivo)</label><input name="files" id="catalogFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/avif"></div>
+  <div class="field" style="grid-column:1/-1"><button class="primary" id="catalogCreateButton" type="submit">Criar catálogo no Supabase</button></div>
+ </form></div>
+ <div class="card" style="margin-top:16px"><div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">Catálogos cadastrados</h2><button class="secondary" id="catalogRefresh" type="button">Atualizar lista</button></div><div id="catalogList"><div class="empty">Carregando catálogos...</div></div></div>`;
+ await loadCatalogEstablishments();
+ document.getElementById("catalogCreateForm").onsubmit=createCatalog;
+ document.getElementById("catalogRefresh").onclick=loadCatalogList;
+ await loadCatalogList();
+}
+
+async function loadCatalogEstablishments(){
+ const sel=document.getElementById("catalogEstablishment");if(!sel)return;
+ const {data,error}=await supabaseClient.from("establishments").select("id,name,status").eq("status","active").order("name");
+ if(error){sel.innerHTML='<option value="">Falha ao carregar estabelecimentos</option>';alert("Não foi possível carregar estabelecimentos: "+error.message);return;}
+ sel.innerHTML='<option value="">Selecione um estabelecimento ativo</option>'+(data||[]).map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.name)}</option>`).join("");
+}
+
+async function createCatalog(event){
+ event.preventDefault();
+ if(!currentUser){showLogin("Entre novamente para continuar.");return;}
+ const form=event.currentTarget,button=document.getElementById("catalogCreateButton"),values=Object.fromEntries(new FormData(form).entries());
+ if(!values.establishment_id||!values.name.trim()){alert("Selecione o estabelecimento e informe o nome do catálogo.");return;}
+ const external=values.external_url.trim();
+ if(external){try{const u=new URL(external);if(u.protocol!=="https:"||u.username||u.password)throw new Error();}catch{alert("O link externo precisa ser uma URL HTTPS válida.");return;}}
+ button.disabled=true;button.textContent="Criando catálogo...";
+ try{
+  const {data:catalog,error}=await supabaseClient.from("catalogs").insert({
+   establishment_id:values.establishment_id,name:values.name.trim(),catalog_type:"link",external_url:external||null,
+   management_mode:values.management_mode,source_format:values.source_format,description:values.description.trim()||null,
+   status:"draft",version_no:1,created_by:currentUser.id,updated_at:new Date().toISOString()
+  }).select("id").single();
+  if(error)throw error;
+  const files=[...(document.getElementById("catalogFiles")?.files||[])];
+  if(files.length)await uploadCatalogFiles(catalog.id,files,null,"source_document");
+  form.reset();
+  await loadCatalogList();
+  alert("Catálogo criado no Supabase. Situação: rascunho.");
+ }catch(error){alert("Não foi possível criar o catálogo: "+(error.message||error));}
+ finally{button.disabled=false;button.textContent="Criar catálogo no Supabase";}
+}
+
+async function uploadCatalogFiles(catalogId,files,productId,assetType){
+ const created=[];
+ for(const file of files){
+  if(file.size>20971520)throw new Error("O arquivo "+file.name+" ultrapassa 20 MB.");
+  const allowed=["application/pdf","image/jpeg","image/png","image/webp","image/avif"];
+  if(!allowed.includes(file.type))throw new Error("Formato não permitido: "+file.name);
+  const cleanName=file.name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]+/g,"_").replace(/^_+|_+$/g,"").slice(-100)||"arquivo";
+  const path=catalogId+"/"+Date.now()+"_"+crypto.randomUUID()+"_"+cleanName;
+  const {error:uploadError}=await supabaseClient.storage.from("ubpop-catalogs").upload(path,file,{contentType:file.type,upsert:false});
+  if(uploadError)throw uploadError;
+  const {data:asset,error:assetError}=await supabaseClient.from("catalog_assets").insert({catalog_id:catalogId,product_id:productId||null,asset_type:assetType,storage_bucket:"ubpop-catalogs",storage_path:path,original_file_name:file.name,mime_type:file.type,file_size_bytes:file.size,created_by:currentUser.id}).select("id").single();
+  if(assetError)throw assetError;
+  created.push(asset);
+  if(productId&&assetType==="product_image"){
+   const {error:linkError}=await supabaseClient.from("products").update({image_asset_id:asset.id}).eq("id",productId).eq("catalog_id",catalogId);
+   if(linkError)throw linkError;
+  }
+ }
+ return created;
+}
+
+async function loadCatalogList(){
+ const target=document.getElementById("catalogList");if(!target)return;
+ target.innerHTML='<div class="empty">Consultando Supabase...</div>';
+ const [{data:catalogs,error},{data:establishments},{data:products},{data:assets}]=await Promise.all([
+  supabaseClient.from("catalogs").select("id,establishment_id,name,catalog_type,external_url,active,management_mode,description,source_format,status,version_no,approved_at,published_at,created_at").order("created_at",{ascending:false}),
+  supabaseClient.from("establishments").select("id,name"),
+  supabaseClient.from("products").select("id,catalog_id,name,description,price,purchase_url,active,image_asset_id,image_url").not("catalog_id","is",null).order("name"),
+  supabaseClient.from("catalog_assets").select("id,catalog_id,product_id,asset_type,original_file_name,mime_type,file_size_bytes,created_at").order("sort_order")
+ ]);
+ if(error){target.innerHTML=`<div class="notice">Falha ao consultar catálogos: ${escapeHtml(error.message)}</div>`;return;}
+ const estMap=new Map((establishments||[]).map(x=>[x.id,x.name]));
+ const productMap=new Map();for(const p of products||[]){if(!productMap.has(p.catalog_id))productMap.set(p.catalog_id,[]);productMap.get(p.catalog_id).push(p);}
+ const assetMap=new Map();for(const a of assets||[]){if(!assetMap.has(a.catalog_id))assetMap.set(a.catalog_id,[]);assetMap.get(a.catalog_id).push(a);}
+ const modeLabel={ubpop_built:"Montado pelo UB-POP",integrated:"Integrado",hybrid:"Híbrido"};
+ const statusLabel={draft:"Rascunho",pending_approval:"Aguardando aprovação",approved:"Aprovado",published:"Publicado",archived:"Arquivado"};
+ if(!catalogs?.length){target.innerHTML='<div class="empty">Nenhum catálogo cadastrado. Crie o primeiro acima.</div>';return;}
+ target.innerHTML=catalogs.map(c=>{
+  const ps=productMap.get(c.id)||[],as=assetMap.get(c.id)||[];
+  return `<div class="card" style="margin:12px 0;border-color:#dce5ee"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h2 style="margin:0 0 5px">${escapeHtml(c.name)}</h2><div class="muted">${escapeHtml(estMap.get(c.establishment_id)||"Estabelecimento não localizado")} · ${escapeHtml(modeLabel[c.management_mode]||c.management_mode)} · v${escapeHtml(c.version_no)}</div></div><span class="pill">${escapeHtml(statusLabel[c.status]||c.status)}</span></div>
+  <p class="muted">${escapeHtml(c.description||"Sem descrição")}</p>
+  ${c.external_url?`<p><a href="${escapeHtml(c.external_url)}" target="_blank" rel="noopener">Abrir catálogo externo</a></p>`:""}
+  <div class="muted">${ps.length} produto(s) · ${as.length} arquivo(s) · Formato: ${escapeHtml(c.source_format||"não informado")}</div>
+  ${as.length?`<ul>${as.map(a=>`<li class="muted">${escapeHtml(a.original_file_name||a.asset_type)} · ${escapeHtml(a.asset_type)}</li>`).join("")}</ul>`:""}
+  <div class="actions" style="margin-top:10px">${c.status==="draft"?`<button class="secondary" type="button" onclick="submitCatalogApproval('${c.id}')">Enviar para aprovação</button>`:""}${c.status==="pending_approval"?`<button class="secondary" type="button" onclick="approveCatalog('${c.id}')">Aprovar</button>`:""}${c.status==="approved"?`<button class="primary" type="button" onclick="publishCatalog('${c.id}')">Programar exibição</button>`:""}${c.status!=="archived"?`<button class="secondary" type="button" onclick="showCatalogProductForm('${c.id}')">Adicionar produto</button><button class="secondary" type="button" onclick="showCatalogUploadForm('${c.id}')">Enviar arquivos</button><button class="primary" type="button" onclick="showCatalogPdfImport('${c.id}')">Importar PDF e extrair produtos</button><button class="secondary" type="button" onclick="showCatalogVisualSettings('${c.id}')">Configurar imagens do catálogo</button><button class="danger" type="button" onclick="archiveCatalog('${c.id}')">Arquivar</button>`:""}</div>
+  <div id="catalog-extra-${c.id}" style="margin-top:10px"></div>
+  ${ps.length?`<div style="overflow:auto;margin-top:10px"><table><thead><tr><th>Produto</th><th>Preço</th><th>Imagem</th><th>Link de compra</th><th>Situação</th></tr></thead><tbody>${ps.map(p=>`<tr><td>${escapeHtml(p.name)}</td><td>${p.price==null?"—":"R$ "+Number(p.price).toFixed(2).replace(".",",")}</td><td>${p.image_asset_id||p.image_url?"Imagem vinculada":"Sem imagem"} <button class="secondary" type="button" onclick="showCatalogProductImageForm('${c.id}','${p.id}')">${p.image_asset_id||p.image_url?"Trocar foto":"Adicionar foto"}</button></td><td>${p.purchase_url?`<a href="${escapeHtml(p.purchase_url)}" target="_blank" rel="noopener">Abrir</a>`:"Não configurado"}</td><td>${p.active?"Ativo":"Inativo"}</td></tr>`).join("")}</tbody></table></div>`:""}
+  </div>`;
+ }).join("");
+}
+
+window.showCatalogUploadForm= function(catalogId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML=`<form class="card" id="catalogUpload-${catalogId}"><b>Enviar arquivos ao catálogo</b><p class="muted">PDF ou imagens. Máximo de 20 MB por arquivo.</p><input name="files" type="file" multiple required accept="application/pdf,image/jpeg,image/png,image/webp,image/avif"><div class="actions" style="margin-top:8px"><button class="primary">Enviar arquivos</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div></form>`;
+ document.getElementById("catalogUpload-"+catalogId).onsubmit=async e=>{e.preventDefault();const files=[...e.currentTarget.elements.files.files];try{await uploadCatalogFiles(catalogId,files,null,"source_document");await loadCatalogList();alert("Arquivos enviados com sucesso.");}catch(err){alert("Falha no envio: "+err.message);}};
+};
+
+window.showCatalogProductImageForm=function(catalogId,productId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML=`<form class="card" id="catalogProductImage-${catalogId}"><b>Imagem individual do produto</b><p class="muted">Selecione uma imagem para este produto. O arquivo será guardado na biblioteca privada e vinculado ao produto.</p><div class="field"><label>Foto do produto *</label><input name="image" type="file" accept="image/jpeg,image/png,image/webp,image/avif" required></div><div class="actions" style="margin-top:10px"><button class="primary" type="submit">Salvar imagem</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div></form>`;
+ document.getElementById("catalogProductImage-"+catalogId).onsubmit=async e=>{e.preventDefault();const file=e.currentTarget.elements.image.files[0];if(!file)return;try{await uploadCatalogFiles(catalogId,[file],productId,"product_image");await loadCatalogList();alert("Imagem vinculada ao produto.");}catch(err){alert("Falha ao salvar imagem: "+err.message);}};
+};
+
+window.showCatalogVisualSettings=async function(catalogId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML='<div class="card">Carregando configurações visuais...</div>';
+ const {data:catalog,error}=await supabaseClient.from("catalogs").select("background_asset_id,access_screen_asset_id").eq("id",catalogId).single();if(error){target.innerHTML=`<div class="notice">Não foi possível carregar: ${escapeHtml(error.message)}</div>`;return;}
+ const currentIds=[catalog.background_asset_id,catalog.access_screen_asset_id].filter(Boolean);let previews={};
+ if(currentIds.length){const {data:assets}=await supabaseClient.from("catalog_assets").select("id,storage_bucket,storage_path,original_file_name").in("id",currentIds);for(const a of assets||[]){const {data}=await supabaseClient.storage.from(a.storage_bucket||"ubpop-catalogs").createSignedUrl(a.storage_path,600);if(data?.signedUrl)previews[a.id]={url:data.signedUrl,name:a.original_file_name};}}
+ target.innerHTML=`<div class="card"><b>Imagens e fundos do catálogo</b><p class="muted">Use imagens diferentes para a tela interativa do player e para o fundo interno do catálogo. Recomendado: imagens horizontais ou verticais em JPG, PNG ou WebP, até 20 MB.</p><form id="catalogVisual-${catalogId}"><div class="formgrid"><div class="field"><label>Fundo da tela “Toque e acesse o catálogo”</label><input name="access_screen" type="file" accept="image/jpeg,image/png,image/webp,image/avif">${catalog.access_screen_asset_id&&previews[catalog.access_screen_asset_id]?`<p class="muted">Atual: ${escapeHtml(previews[catalog.access_screen_asset_id].name||"imagem")}</p><img alt="Fundo da tela interativa" src="${previews[catalog.access_screen_asset_id].url}" style="width:100%;max-height:130px;object-fit:cover;border-radius:8px">`:"<p class=muted>Sem imagem definida</p>"}</div><div class="field"><label>Fundo interno do catálogo</label><input name="background" type="file" accept="image/jpeg,image/png,image/webp,image/avif">${catalog.background_asset_id&&previews[catalog.background_asset_id]?`<p class="muted">Atual: ${escapeHtml(previews[catalog.background_asset_id].name||"imagem")}</p><img alt="Fundo interno do catálogo" src="${previews[catalog.background_asset_id].url}" style="width:100%;max-height:130px;object-fit:cover;border-radius:8px">`:"<p class=muted>Sem imagem definida</p>"}</div></div><div class="actions" style="margin-top:10px"><button class="primary" type="submit">Salvar fundos</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div></form></div>`;
+ document.getElementById("catalogVisual-"+catalogId).onsubmit=async e=>{e.preventDefault();const form=e.currentTarget,patch={updated_at:new Date().toISOString()};try{const screenFile=form.elements.access_screen.files[0],backgroundFile=form.elements.background.files[0];if(screenFile){const a=await uploadCatalogFiles(catalogId,[screenFile],null,"access_screen_background");patch.access_screen_asset_id=a[0].id;}if(backgroundFile){const a=await uploadCatalogFiles(catalogId,[backgroundFile],null,"catalog_background");patch.background_asset_id=a[0].id;}if(!screenFile&&!backgroundFile){alert("Selecione pelo menos uma imagem para atualizar.");return;}const {error:updateError}=await supabaseClient.from("catalogs").update(patch).eq("id",catalogId);if(updateError)throw updateError;await loadCatalogList();const fresh=document.getElementById("catalog-extra-"+catalogId);if(fresh)fresh.innerHTML='<div class="notice">Fundos salvos e vinculados ao catálogo. A pré-visualização pública/player será validada na próxima etapa de integração visual.</div>';}catch(err){alert("Não foi possível salvar os fundos: "+err.message);}};
+};
+
+// Importação de PDF: extrai texto de PDFs digitais e prepara produtos para revisão humana.
+window.showCatalogPdfImport=function(catalogId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML=`<div class="card"><b>Importar PDF para produtos UB-POP</b><p class="muted">PDF até 20 MB. O sistema extrai texto de PDFs digitais e sugere nome/preço. Confira tudo antes de criar produtos. PDFs escaneados (imagem) exigem OCR e serão sinalizados.</p><form id="catalogPdfImport-${catalogId}"><div class="field"><label>Arquivo PDF *</label><input name="pdf" type="file" accept="application/pdf,.pdf" required></div><div class="actions" style="margin-top:10px"><button class="primary" type="submit">Extrair e revisar</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div></form><div id="catalogPdfReview-${catalogId}" style="margin-top:12px"></div></div>`;
+ document.getElementById("catalogPdfImport-"+catalogId).onsubmit=async e=>{
+  e.preventDefault();const form=e.currentTarget,file=form.elements.pdf.files[0],review=document.getElementById("catalogPdfReview-"+catalogId);
+  if(!file)return;if(file.size>20971520){alert("O PDF ultrapassa 20 MB.");return;}if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf")){alert("Selecione um arquivo PDF.");return;}
+  let jobId=null;const submit=form.querySelector('button[type="submit"]');submit.disabled=true;submit.textContent="Lendo PDF...";review.innerHTML='<div class="notice">Enviando o PDF original e extraindo texto. Aguarde...</div>';
+  try{
+   const assets=await uploadCatalogFiles(catalogId,[file],null,"source_document");if(!assets.length)throw new Error("O PDF não foi salvo na biblioteca.");
+   const jobRes=await supabaseClient.from("catalog_import_jobs").insert({catalog_id:catalogId,source_asset_id:assets[0].id,status:"processing",created_by:currentUser.id,updated_at:new Date().toISOString()}).select("id").single();if(jobRes.error)throw jobRes.error;
+   jobId=jobRes.data.id;
+   const text=await extractPdfTextInBrowser(file);
+   const candidates=parsePdfProductCandidates(text);
+   if(!candidates.length){await supabaseClient.from("catalog_import_jobs").update({status:"review_required",extracted_products:[],extraction_summary:{pages:text.pages,text_characters:text.text.length,reason:"no_candidates",scanned_pdf:text.text.trim().length<40},updated_at:new Date().toISOString()}).eq("id",jobId);review.innerHTML=`<div class="notice">PDF original guardado. Não consegui identificar produtos e preços com segurança. Este arquivo pode ser escaneado ou ter uma diagramação complexa. Próxima etapa: OCR e revisão visual; não criamos produtos automaticamente.</div><p class="muted">Importação ${escapeHtml(jobId)}</p>`;return;}
+   await supabaseClient.from("catalog_import_jobs").update({status:"review_required",extracted_products:candidates,extraction_summary:{pages:text.pages,text_characters:text.text.length,candidates:candidates.length,method:"pdf_text_layer"},updated_at:new Date().toISOString()}).eq("id",jobId);
+   renderPdfImportReview(catalogId,jobId,candidates,review);
+  }catch(err){if(jobId){await supabaseClient.from("catalog_import_jobs").update({status:"failed",error_message:String(err.message||err).slice(0,1000),updated_at:new Date().toISOString()}).eq("id",jobId);}review.innerHTML=`<div class="notice">Falha na importação: ${escapeHtml(err.message||String(err))}. O PDF original pode já estar salvo; consulte os arquivos do catálogo antes de reenviar.</div>`;}
+  finally{submit.disabled=false;submit.textContent="Extrair e revisar";}
+ };
+};
+
+async function extractPdfTextInBrowser(file){
+ if(!window.pdfjsLib){await new Promise((resolve,reject)=>{const script=document.createElement("script");script.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";script.onload=resolve;script.onerror=()=>reject(new Error("Não foi possível carregar o leitor PDF. Verifique a conexão e tente novamente."));document.head.appendChild(script);});}
+ if(!window.pdfjsLib)throw new Error("Leitor PDF indisponível.");
+ window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+ const bytes=await file.arrayBuffer(),pdf=await window.pdfjsLib.getDocument({data:bytes}).promise;let pages=[],all=[];
+ for(let n=1;n<=pdf.numPages;n++){const page=await pdf.getPage(n),content=await page.getTextContent();const lines=[];let lastY=null,line="";for(const item of content.items){if(!item.str)continue;const y=Math.round(item.transform?.[5]||0);if(lastY!==null&&Math.abs(y-lastY)>3){if(line.trim())lines.push(line.trim());line="";}line+=(item.str.endsWith(" ")?item.str:item.str+" ");lastY=y;}if(line.trim())lines.push(line.trim());pages.push(lines.join("\n"));all.push(...lines);}
+ return {pages:pdf.numPages,text:all.join("\n"),pageText:pages};
+}
+
+function parsePdfProductCandidates(pdfText){
+ const lines=pdfText.split(/\r?\n/).map(x=>x.replace(/\s+/g," ").trim()).filter(Boolean);const found=[];const priceRe=/(?:R\$\s*)?\d{1,4}(?:[.,]\d{2})\b/g;
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i];const matches=[...line.matchAll(priceRe)];if(!matches.length)continue;
+  const m=matches[matches.length-1];let rawPrice=m[0].replace(/R\$\s*/i,"").trim();if(rawPrice.includes(",")){rawPrice=rawPrice.replace(/\./g,"").replace(",",".");}const price=Number(rawPrice);if(!Number.isFinite(price)||price<0||price>100000)continue;
+  let name=line.slice(0,m.index).replace(/[|•·\-–—:]+$/g,"").trim();if(!name&&i>0)name=lines[i-1];
+  name=name.replace(/^(?:R\$\s*)/i,"").trim();if(name.length<2||name.length>160)continue;
+  if(/^(total|subtotal|desconto|frete|página|pagina|validade|preço|preco)$/i.test(name))continue;
+  const key=name.toLowerCase();if(found.some(x=>x.name.toLowerCase()===key&&x.price===price))continue;
+  found.push({name:name.slice(0,160),description:null,price,purchase_url:null,selected:true,source_line:line});
+ }
+ return found.slice(0,250);
+}
+
+function renderPdfImportReview(catalogId,jobId,candidates,review){
+ review.innerHTML=`<div class="notice">Foram identificados ${candidates.length} possíveis produtos. A extração automática pode interpretar incorretamente layouts, combos ou preços promocionais. Revise nome e preço; somente os itens marcados serão cadastrados na tabela padrão de produtos UB-POP.</div><form id="catalogPdfReviewForm-${catalogId}"><div style="overflow:auto;max-height:460px;margin-top:10px"><table><thead><tr><th>Incluir</th><th>Nome do produto</th><th>Preço (R$)</th></tr></thead><tbody>${candidates.map((p,i)=>`<tr><td><input type="checkbox" name="sel-${i}" ${p.selected?'checked':''}></td><td><input style="min-width:180px;width:100%" name="name-${i}" value="${escapeHtml(p.name)}" maxlength="160"></td><td><input style="min-width:100px;width:100%" name="price-${i}" type="number" min="0" step="0.01" value="${p.price.toFixed(2)}"></td></tr>`).join("")}</tbody></table></div><div class="actions" style="margin-top:10px"><button class="primary" type="submit">Criar produtos selecionados</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Fechar revisão</button></div></form><p class="muted">Arquivo original e processo de importação: ${escapeHtml(jobId)}</p>`;
+ document.getElementById("catalogPdfReviewForm-"+catalogId).onsubmit=async e=>{
+  e.preventDefault();const form=e.currentTarget,chosen=[];for(let i=0;i<candidates.length;i++){if(!form.elements["sel-"+i]?.checked)continue;const name=form.elements["name-"+i].value.trim(),price=Number(form.elements["price-"+i].value);if(!name){alert("Preencha o nome de todos os produtos selecionados.");return;}if(!Number.isFinite(price)||price<0){alert("Confira o preço do produto: "+name);return;}chosen.push({name,price,description:null,purchase_url:null,active:true,sort_order:i,source_import_job_id:jobId});}
+  if(!chosen.length){alert("Selecione ao menos um produto.");return;}const button=form.querySelector('button[type="submit"]');button.disabled=true;button.textContent="Cadastrando produtos...";
+  try{const {data:catalog,error:catErr}=await supabaseClient.from("catalogs").select("establishment_id").eq("id",catalogId).single();if(catErr)throw catErr;const rows=chosen.map(x=>({...x,catalog_id:catalogId,establishment_id:catalog.establishment_id}));const {data,error}=await supabaseClient.from("products").insert(rows).select("id,name");if(error)throw error;const {error:jobErr}=await supabaseClient.from("catalog_import_jobs").update({status:"completed",reviewed_by:currentUser.id,reviewed_at:new Date().toISOString(),completed_at:new Date().toISOString(),updated_at:new Date().toISOString(),extraction_summary:{products_created:data.length,method:"pdf_text_layer_reviewed"}}).eq("id",jobId);if(jobErr){review.innerHTML=`<div class="notice">${data.length} produto(s) foram cadastrados, mas o status da importação não foi atualizado. Não reenvie o PDF; confira os produtos na lista.</div>`;return;}await loadCatalogList();const freshReview=document.getElementById("catalog-extra-"+catalogId);if(freshReview)freshReview.innerHTML=`<div class="notice">Concluído: ${data.length} produto(s) cadastrado(s) na estrutura padrão UB-POP. Agora adicione as imagens individuais, links de compra e gere QR Codes na área QR Codes V6.</div>`;}
+  catch(err){alert("Não foi possível cadastrar os produtos: "+err.message);button.disabled=false;button.textContent="Criar produtos selecionados";}
+ };
+}
+
+window.showCatalogProductForm=function(catalogId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML=`<form class="card" id="catalogProduct-${catalogId}"><b>Adicionar produto ao catálogo</b><div class="formgrid" style="margin-top:10px"><div class="field"><label>Nome *</label><input name="name" required maxlength="160"></div><div class="field"><label>Preço (opcional)</label><input name="price" type="number" min="0" step="0.01"></div><div class="field" style="grid-column:1/-1"><label>Descrição</label><textarea name="description" maxlength="1000"></textarea></div><div class="field" style="grid-column:1/-1"><label>Link de compra HTTPS (opcional)</label><input name="purchase_url" type="url" placeholder="https://..."></div><div class="field" style="grid-column:1/-1"><label>Imagem do produto (opcional)</label><input name="image" type="file" accept="image/jpeg,image/png,image/webp,image/avif"></div></div><div class="actions" style="margin-top:8px"><button class="primary">Salvar produto</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div></form>`;
+ document.getElementById("catalogProduct-"+catalogId).onsubmit=async e=>{
+  e.preventDefault();const form=e.currentTarget,v=Object.fromEntries(new FormData(form).entries());
+  if(v.purchase_url){try{const u=new URL(v.purchase_url);if(u.protocol!=="https:"||u.username||u.password)throw new Error();}catch{alert("O link de compra deve ser HTTPS.");return;}}
+  try{
+   const {data:catalog,error:catErr}=await supabaseClient.from("catalogs").select("establishment_id,status").eq("id",catalogId).single();if(catErr)throw catErr;
+   const {data:product,error}=await supabaseClient.from("products").insert({catalog_id:catalogId,establishment_id:catalog.establishment_id,name:v.name.trim(),description:v.description.trim()||null,price:v.price?Number(v.price):null,purchase_url:v.purchase_url.trim()||null,active:true,sort_order:0}).select("id").single();if(error)throw error;
+   const image=form.elements.image.files[0];if(image)await uploadCatalogFiles(catalogId,[image],product.id,"product_image");
+   await loadCatalogList();alert("Produto vinculado ao catálogo. O QR individual pode ser gerado na área QR Codes V6.");
+  }catch(err){alert("Não foi possível salvar o produto: "+err.message);}
+ };
+};
+
+async function setCatalogStatus(catalogId,status){
+ const patch={status,updated_at:new Date().toISOString()};
+ if(status==="approved"){patch.approved_at=new Date().toISOString();patch.approved_by=currentUser.id;}
+ if(status==="published")patch.published_at=new Date().toISOString();
+ const {error}=await supabaseClient.from("catalogs").update(patch).eq("id",catalogId);
+ if(error){alert("Não foi possível atualizar a situação: "+error.message);return;}
+ await loadCatalogList();
+}
+window.submitCatalogApproval=id=>setCatalogStatus(id,"pending_approval");
+window.approveCatalog=id=>setCatalogStatus(id,"approved");
+window.publishCatalog=async function(catalogId){
+ const target=document.getElementById("catalog-extra-"+catalogId);if(!target)return;
+ target.innerHTML=`<form class="card" id="catalogPublication-${catalogId}">
+ <b>Programar exibição — ambiente de teste</b>
+ <p class="muted">Esta programação será salva para homologação. Ela não será enviada ao player nem exibida em veículos reais nesta etapa.</p>
+ <div class="formgrid" style="margin-top:10px">
+  <div class="field"><label>Destino *</label><select name="target_type" required><option value="region">Região</option><option value="vehicle">Veículo</option><option value="screen">Tela</option></select></div>
+  <div class="field"><label>Selecionar destino *</label><select name="target_id" required><option value="">Carregando destinos...</option></select></div>
+  <div class="field"><label>Início (opcional)</label><input name="starts_at" type="datetime-local"></div>
+  <div class="field"><label>Fim (opcional)</label><input name="ends_at" type="datetime-local"></div>
+  <div class="field" style="grid-column:1/-1"><label>Observações</label><textarea name="notes" maxlength="1000" placeholder="Ex.: homologação interna do catálogo"></textarea></div>
+ </div>
+ <div class="actions" style="margin-top:8px"><button class="primary" type="submit">Salvar programação de teste</button><button class="secondary" type="button" onclick="document.getElementById('catalog-extra-${catalogId}').innerHTML=''">Cancelar</button></div>
+ <div id="catalogPublicationList-${catalogId}" style="margin-top:12px"></div></form>`;
+ const form=document.getElementById("catalogPublication-"+catalogId);
+ const type=form.elements.target_type, targetSelect=form.elements.target_id;
+ async function reloadTargets(){
+  const kind=type.value;targetSelect.innerHTML='<option value="">Carregando...</option>';
+  let rows=[],label;
+  if(kind==="region"){const r=await supabaseClient.from("regions").select("id,name,active").eq("active",true).order("name");if(r.error)throw r.error;rows=r.data||[];label="Região";}
+  if(kind==="vehicle"){const r=await supabaseClient.from("vehicles").select("id,name,identifier,status").eq("status","active").order("name");if(r.error)throw r.error;rows=r.data||[];label="Veículo";}
+  if(kind==="screen"){const r=await supabaseClient.from("screens").select("id,device_code,description,status").eq("status","active").order("device_code");if(r.error)throw r.error;rows=r.data||[];label="Tela";}
+  targetSelect.innerHTML='<option value="">Selecione '+label.toLowerCase()+'</option>'+rows.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(kind==="region"?x.name:kind==="vehicle"?(x.name+(x.identifier?" · "+x.identifier:"")):(x.device_code+(x.description?" · "+x.description:"")))}</option>`).join("");
+ }
+ type.onchange=()=>reloadTargets().catch(e=>alert("Falha ao carregar destinos: "+e.message));
+ try{await reloadTargets();}catch(e){alert("Falha ao carregar destinos: "+e.message);}
+ await loadCatalogPublicationList(catalogId);
+ form.onsubmit=async e=>{
+  e.preventDefault();const v=Object.fromEntries(new FormData(form).entries());
+  if(!v.target_id){alert("Selecione o destino.");return;}
+  const start=v.starts_at?new Date(v.starts_at).toISOString():null,end=v.ends_at?new Date(v.ends_at).toISOString():null;
+  if(start&&end&&new Date(end)<=new Date(start)){alert("A data final deve ser posterior à inicial.");return;}
+  const row={catalog_id:catalogId,target_type:v.target_type,environment:"test",status:"scheduled",starts_at:start,ends_at:end,notes:v.notes.trim()||null};
+  if(v.target_type==="region")row.region_id=v.target_id;
+  if(v.target_type==="vehicle")row.vehicle_id=v.target_id;
+  if(v.target_type==="screen")row.screen_id=v.target_id;
+  const btn=form.querySelector('button[type="submit"]');btn.disabled=true;btn.textContent="Salvando...";
+  const {error}=await supabaseClient.from("catalog_publications").insert(row);
+  btn.disabled=false;btn.textContent="Salvar programação de teste";
+  if(error){alert("Não foi possível salvar a programação: "+error.message);return;}
+  form.reset();await reloadTargets();await loadCatalogPublicationList(catalogId);alert("Programação de teste salva. Ela ainda não foi enviada ao player.");
+ };
+};
+window.loadCatalogPublicationList=async function(catalogId){
+ const box=document.getElementById("catalogPublicationList-"+catalogId);if(!box)return;
+ const {data,error}=await supabaseClient.from("catalog_publications").select("id,target_type,region_id,vehicle_id,screen_id,environment,status,starts_at,ends_at,created_at").eq("catalog_id",catalogId).order("created_at",{ascending:false});
+ if(error){box.innerHTML='<div class="notice">Não foi possível carregar programações: '+escapeHtml(error.message)+'</div>';return;}
+ const rows=data||[];if(!rows.length){box.innerHTML='<div class="empty">Nenhuma programação criada.</div>';return;}
+ const ids=[...new Set(rows.flatMap(x=>[x.region_id,x.vehicle_id,x.screen_id]).filter(Boolean))];
+ const [regions,vehicles,screens]=await Promise.all([
+  supabaseClient.from("regions").select("id,name").in("id",ids),
+  supabaseClient.from("vehicles").select("id,name,identifier").in("id",ids),
+  supabaseClient.from("screens").select("id,device_code,description").in("id",ids)
+ ]);
+ const names=new Map();for(const x of regions.data||[])names.set(x.id,x.name);for(const x of vehicles.data||[])names.set(x.id,x.name+(x.identifier?" · "+x.identifier:""));for(const x of screens.data||[])names.set(x.id,x.device_code+(x.description?" · "+x.description:""));
+ box.innerHTML='<h3>Programações de teste</h3>'+rows.map(x=>{const id=x.region_id||x.vehicle_id||x.screen_id;return `<div class="notice" style="margin:6px 0"><b>${escapeHtml(x.target_type)}:</b> ${escapeHtml(names.get(id)||"Destino cadastrado")} · ${escapeHtml(x.status)} · ${escapeHtml(x.environment)}<br><span class="muted">${x.starts_at?new Date(x.starts_at).toLocaleString("pt-BR"):"Início não definido"} até ${x.ends_at?new Date(x.ends_at).toLocaleString("pt-BR"):"Sem fim definido"}</span></div>`}).join("");
+};
+window.archiveCatalog=id=>{if(confirm("Arquivar este catálogo? Ele deixará de ser considerado para novas publicações."))setCatalogStatus(id,"archived");};
+
+async function renderQrManagement(){
+ if(!currentUser){showLogin("Entre novamente para continuar.");return;}
+ app.innerHTML=`<h1>QR Codes e interações V6</h1>
+ <div class="sub">Crie QR Codes de teste para canais de venda cadastrados. A V5 permanece independente.</div>
+ <div class="notice" style="margin-bottom:14px">Use somente endereços públicos HTTPS do anunciante. O QR Code encaminha o visitante ao canal externo; o UB-POP registra a leitura e o redirecionamento, mas não processa pagamentos nem confirma vendas.</div>
+ <div class="card"><h2>Gerar novo QR Code</h2>
+ <form id="qrCreateForm" class="formgrid">
+  <div class="field"><label>Estabelecimento *</label><select name="establishment_id" id="qrEstablishment" required><option value="">Carregando...</option></select></div>
+  <div class="field"><label>Catálogo relacionado (obrigatório para relatório) *</label><select name="catalog_id" id="qrCatalog" required><option value="">Selecione o catálogo</option></select></div>
+  <div class="field"><label>Tipo de QR Code *</label><select name="destination_type" id="qrType"><option value="advertiser_general">Canal geral do anunciante</option><option value="product">Produto específico</option></select></div>
+  <div class="field" id="qrProductField" style="display:none"><label>Produto *</label><select name="product_id" id="qrProduct"><option value="">Selecione o produto</option></select></div>
+  <div class="field"><label>Validade (opcional)</label><input name="expires_at" type="datetime-local"></div>
+  <div class="field" style="grid-column:1/-1"><div class="actions"><button class="primary" id="qrCreateButton" type="submit">Gerar QR Code</button><button class="secondary" id="qrReloadButton" type="button">Atualizar dados</button></div></div>
+ </form><div id="qrResult" style="margin-top:14px"></div></div>
+ <div class="card" style="margin-top:16px"><div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">Interações registradas</h2><button class="secondary" id="qrEventsRefresh" type="button">Atualizar eventos</button></div><div id="qrEvents"><div class="empty">Carregando eventos...</div></div></div>`;
+ await loadQrEstablishments();
+ document.getElementById("qrType").onchange=toggleQrProduct;
+ document.getElementById("qrEstablishment").onchange=async()=>{await loadQrCatalogs();await loadQrProducts();};
+ document.getElementById("qrCatalog").onchange=loadQrProducts;
+ document.getElementById("qrCreateForm").onsubmit=createQrCode;
+ document.getElementById("qrReloadButton").onclick=async()=>{await loadQrEstablishments();await loadQrCatalogs();await loadQrProducts();};
+ document.getElementById("qrEventsRefresh").onclick=loadQrEvents;
+ await loadQrEvents();
+}
+
+async function loadQrEstablishments(){
+ const sel=document.getElementById("qrEstablishment");if(!sel)return;
+ const {data,error}=await supabaseClient.from("establishments")
+  .select("id,name,status,sales_channel_type,sales_channel_url")
+  .order("name");
+ if(error){sel.innerHTML='<option value="">Falha ao carregar estabelecimentos</option>';alert("Não foi possível consultar estabelecimentos: "+error.message);return;}
+ const rows=(data||[]).filter(x=>x.status==="active");
+ sel.innerHTML='<option value="">Selecione um estabelecimento ativo</option>'+rows.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.name)}${x.sales_channel_url?" · canal configurado":" · sem canal"}</option>`).join("");
+ await loadQrCatalogs();await loadQrProducts();
+}
+
+async function loadQrCatalogs(){
+ const est=document.getElementById("qrEstablishment")?.value;const sel=document.getElementById("qrCatalog");if(!sel)return;
+ sel.innerHTML="<option value=\"\">Selecione o catálogo</option>";if(!est)return;
+ const {data,error}=await supabaseClient.from("catalogs").select("id,name,status,active").eq("establishment_id",est).eq("active",true).order("name");
+ if(error){sel.innerHTML="<option value=\"\">Falha ao carregar catálogos</option>";return;}
+ sel.innerHTML="<option value=\"\">Selecione o catálogo</option>"+(data||[]).filter(c=>["approved","published"].includes(c.status)).map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("");
+}
+
+async function loadQrProducts(){
+ const est=document.getElementById("qrEstablishment")?.value;const catalogId=document.getElementById("qrCatalog")?.value;
+ const sel=document.getElementById("qrProduct");if(!sel)return;
+ sel.innerHTML='<option value="">Carregando produtos...</option>';
+ if(!est){sel.innerHTML='<option value="">Selecione primeiro o estabelecimento</option>';return;}
+ if(!catalogId){sel.innerHTML='<option value="">Selecione primeiro o catálogo</option>';return;}
+ let query=supabaseClient.from("products").select("id,name,active,purchase_url,catalog_id")
+  .eq("establishment_id",est).eq("active",true).order("name");if(catalogId)query=query.eq("catalog_id",catalogId);const {data,error}=await query;
+ if(error){sel.innerHTML='<option value="">Falha ao carregar produtos</option>';return;}
+ const rows=data||[];
+ sel.innerHTML='<option value="">Selecione um produto</option>'+rows.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.name)}${x.purchase_url?" · link configurado":" · sem link"}</option>`).join("");
+}
+
+function toggleQrProduct(){
+ const isProduct=document.getElementById("qrType").value==="product";
+ document.getElementById("qrProductField").style.display=isProduct?"block":"none";
+ if(isProduct)loadQrProducts();
+}
+
+async function createQrCode(event){
+ event.preventDefault();
+ if(!currentUser){showLogin("Sua sessão expirou. Entre novamente.");return;}
+ const form=event.currentTarget,button=document.getElementById("qrCreateButton"),result=document.getElementById("qrResult");
+ const values=Object.fromEntries(new FormData(form).entries());
+ if(!values.establishment_id){alert("Selecione um estabelecimento ativo.");return;}
+ if(!values.catalog_id){alert("Selecione o catálogo para vincular o QR Code e atribuir as leituras aos relatórios.");return;}
+ if(values.destination_type==="product"&&!values.product_id){alert("Selecione um produto ativo.");return;}
+ const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+ const accessToken=sessionData?.session?.access_token;
+ if(sessionError||!accessToken){alert("Sua sessão administrativa não está disponível. Saia e entre novamente no painel.");return;}
+ const payload={destination_type:values.destination_type,establishment_id:values.establishment_id,test_mode:true};
+ if(values.catalog_id)payload.catalog_id=values.catalog_id;
+ if(values.destination_type==="product")payload.product_id=values.product_id;
+ if(values.expires_at){const d=new Date(values.expires_at);if(!Number.isFinite(d.getTime())||d.getTime()<=Date.now()){alert("A validade deve ser uma data futura.");return;}payload.expires_at=d.toISOString();}
+ button.disabled=true;button.textContent="Gerando...";result.innerHTML='<div class="muted">Validando permissões e criando token seguro...</div>';
+ try{
+  const response=await fetch(SUPABASE_URL+"/functions/v1/ubpop-qr-redirect-v6-test/create",{
+   method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+accessToken},body:JSON.stringify(payload)
+  });
+  const body=await response.json().catch(()=>({}));
+  if(!response.ok||!body.ok)throw new Error(body.error||("Falha HTTP "+response.status));
+  result.innerHTML=`<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><div id="qrCanvasBox" style="background:white;padding:10px;border:1px solid var(--line);border-radius:10px"></div><div style="min-width:220px;flex:1"><b>QR Code criado com sucesso</b><p class="muted">Token registrado no Supabase. A URL completa aparece abaixo; mantenha-a privada até publicar o QR no anúncio.</p><input id="qrUrlOutput" readonly value="${escapeHtml(body.qr_url)}" style="width:100%"><div class="actions" style="margin-top:9px"><button class="secondary" type="button" id="copyQrUrl">Copiar URL</button><button class="secondary" type="button" id="printQrCode">Imprimir QR</button><a id="openQrUrl" href="${escapeHtml(body.qr_url)}" target="_blank" rel="noopener">Testar redirecionamento</a></div><div class="muted" style="margin-top:8px">Validade: ${body.expires_at?escapeHtml(new Date(body.expires_at).toLocaleString("pt-BR")):"Sem expiração programada"}</div></div></div>`;
+  const qrBox=document.getElementById("qrCanvasBox");
+  qrBox.setAttribute("aria-label","QR Code UB-POP de teste");
+  if(body.qr_image_url){
+    const image=document.createElement("img");
+    image.alt="QR Code UB-POP de teste";
+    image.width=240;image.height=240;
+    image.style.display="block";image.style.imageRendering="pixelated";
+    image.src=body.qr_image_url;
+    image.onerror=()=>{qrBox.innerHTML='<div class="notice">A imagem QR ainda não pôde ser carregada. A URL continua disponível para copiar.</div>';};
+    qrBox.appendChild(image);
+  }else{
+    qrBox.innerHTML='<div class="notice">A função ainda não forneceu a imagem do QR Code. Atualize o painel e tente novamente.</div>';
+  }
+  document.getElementById("copyQrUrl").onclick=async()=>{try{await navigator.clipboard.writeText(body.qr_url);alert("URL copiada.");}catch(e){document.getElementById("qrUrlOutput").select();alert("Selecione e copie a URL.");}};
+  document.getElementById("printQrCode").onclick=()=>{const qr=qrBox.querySelector("img");if(!qr||!qr.complete){alert("A imagem do QR Code ainda não foi carregada.");return;}const w=window.open("","_blank");if(!w){alert("Permita pop-ups para imprimir o QR Code.");return;}const src=qr.src;w.document.write(`<html><head><title>UB-POP QR Code</title></head><body style="font-family:Arial;text-align:center;padding:24px"><h2>UB-POP</h2><img src="${src}" style="width:280px;height:280px"><p>QR Code de redirecionamento</p></body></html>`);w.document.close();w.focus();w.print();};
+  await loadQrEvents();
+ }catch(error){result.innerHTML=`<div class="notice">Não foi possível gerar o QR Code: ${escapeHtml(error.message)}</div>`;}
+ finally{button.disabled=false;button.textContent="Gerar QR Code";}
+}
+
+async function loadQrEvents(){
+ const target=document.getElementById("qrEvents");if(!target)return;
+ const {data,error}=await supabaseClient.from("ubpop_interaction_events")
+  .select("id,event_type,occurred_at,establishment_id,product_id,redirect_token_id,metadata")
+  .order("occurred_at",{ascending:false}).limit(50);
+ if(error){target.innerHTML=`<div class="notice">Não foi possível consultar os eventos: ${escapeHtml(error.message)}</div>`;return;}
+ if(!data?.length){target.innerHTML='<div class="empty">Ainda não há interações registradas. Gere um QR Code e faça uma leitura para iniciar o histórico.</div>';return;}
+ target.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Evento</th><th>Data/hora</th><th>Estabelecimento</th><th>Produto</th><th>Token</th></tr></thead><tbody>${data.map(x=>`<tr><td>${escapeHtml(x.event_type)}</td><td>${escapeHtml(new Date(x.occurred_at).toLocaleString("pt-BR"))}</td><td>${escapeHtml(x.establishment_id||"—")}</td><td>${escapeHtml(x.product_id||"—")}</td><td>${escapeHtml(x.redirect_token_id||"—")}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+
+let reportRows=[];
+async function renderReports(){
+ app.innerHTML=`<h1>Relatórios</h1>
+ <div class="sub">Indicadores reais de interação registrados no Supabase · Homologação V6</div>
+ <div class="card" style="margin-bottom:14px"><div class="toolbar">
+  <div class="field"><label>Data inicial</label><input id="repFrom" type="date"></div>
+  <div class="field"><label>Data final</label><input id="repTo" type="date"></div>
+  <div class="field"><label>Estabelecimento</label><select id="repEst"><option value="">Todos</option></select></div>
+  <button class="primary" id="repApply">Aplicar filtros</button><button class="secondary" id="repRefresh">Atualizar</button><button class="secondary" id="repCsv">Exportar CSV</button>
+ </div><div id="repStatus" class="muted">Carregando dados do Supabase...</div></div>
+ <div id="repMetrics" class="grid"></div>
+ <div class="card"><h2>Desempenho por anunciante, campanha e produto</h2><div id="repTable" class="empty">Carregando...</div></div>
+ <div class="notice" style="margin-top:14px">Os números representam eventos registrados, não vendas confirmadas nem necessariamente pessoas únicas. A conclusão de uma venda depende da confirmação no canal do anunciante.</div>`;
+ document.getElementById('repApply').onclick=drawReports;
+ document.getElementById('repRefresh').onclick=loadReports;
+ document.getElementById('repCsv').onclick=exportReportsCsv;
+ await loadReports();
+}
+async function loadReports(){
+ const status=document.getElementById('repStatus'); if(!status)return;
+ status.textContent='Consultando relatório V6 no Supabase...';
+ const {data,error}=await supabaseClient.from('ubpop_admin_interaction_report_v6_test').select('*').order('report_date',{ascending:false}).limit(5000);
+ if(error){status.textContent='Não foi possível carregar o relatório: '+error.message;document.getElementById('repMetrics').innerHTML='';document.getElementById('repTable').innerHTML='<div class="notice">Verifique as permissões de leitura da visão de relatórios no Supabase.</div>';return;}
+ reportRows=data||[];
+ const estSel=document.getElementById('repEst');
+ const current=estSel.value;
+ const names=[...new Map(reportRows.map(x=>[x.establishment_id,x.establishment_name||x.establishment_id])).entries()];
+ estSel.innerHTML='<option value="">Todos</option>'+names.map(([id,n])=>`<option value="${escapeHtml(id)}">${escapeHtml(n)}</option>`).join('');
+ estSel.value=current;
+ status.textContent=`${reportRows.length} linhas de relatório carregadas · Atualizado em ${new Date().toLocaleString('pt-BR')}`;
+ drawReports();
+}
+function filteredReportRows(){
+ const from=document.getElementById('repFrom')?.value||'';
+ const to=document.getElementById('repTo')?.value||'';
+ const est=document.getElementById('repEst')?.value||'';
+ return reportRows.filter(x=>(!from||x.report_date>=from)&&(!to||x.report_date<=to)&&(!est||x.establishment_id===est));
+}
+function drawReports(){
+ const rows=filteredReportRows();
+ const sum=k=>rows.reduce((a,x)=>a+(Number(x[k])||0),0);
+ const metrics=[['Aberturas de catálogo',sum('catalog_opens')],['Leituras de QR Code',sum('qr_scans')],['Redirecionamentos concluídos',sum('completed_redirects')],['Tokens distintos lidos',sum('unique_qr_tokens_scanned')]];
+ document.getElementById('repMetrics').innerHTML=metrics.map(([n,v])=>`<div class="card"><div class="muted">${n}</div><div class="metric">${v.toLocaleString('pt-BR')}</div><div class="muted">Eventos registrados</div></div>`).join('');
+ const target=document.getElementById('repTable');
+ if(!rows.length){target.innerHTML='<div class="empty">Nenhum evento encontrado para os filtros selecionados.</div>';return;}
+ target.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Data</th><th>Anunciante</th><th>Campanha</th><th>Veículo</th><th>Tela</th><th>Produto</th><th>Destino</th><th>Aberturas</th><th>Leituras QR</th><th>Redirecionamentos</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${escapeHtml(x.report_date||'—')}</td><td>${escapeHtml(x.establishment_name||'—')}</td><td>${escapeHtml(x.campaign_name||'—')}</td><td>${escapeHtml(x.vehicle_name||'—')}</td><td>${escapeHtml(x.screen_name||'—')}</td><td>${escapeHtml(x.product_name||'—')}</td><td>${escapeHtml(x.destination_type||'—')}</td><td>${Number(x.catalog_opens)||0}</td><td>${Number(x.qr_scans)||0}</td><td>${Number(x.completed_redirects)||0}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function exportReportsCsv(){
+ const rows=filteredReportRows(); if(!rows.length){alert('Não há dados para exportar.');return;}
+ const cols=[['report_date','Data'],['establishment_name','Anunciante'],['campaign_name','Campanha'],['vehicle_name','Veículo'],['screen_name','Tela'],['product_name','Produto'],['destination_type','Destino'],['catalog_opens','Aberturas de catálogo'],['qr_scans','Leituras QR'],['completed_redirects','Redirecionamentos']];
+ const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const csv='\ufeff'+[cols.map(x=>esc(x[1])).join(';'),...rows.map(r=>cols.map(x=>esc(r[x[0]])).join(';'))].join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='ubpop-relatorio-v6.csv';a.click();URL.revokeObjectURL(url);
+}
+
+async function renderMediaLibrary(message=""){
+ if(!currentUser){showLogin();return;}
+ app.innerHTML=`<h1>Biblioteca de mídias</h1>
+ <div class="sub">Arquivos do bucket privado ubpop-media. Somente administrador autenticado pode enviar e administrar.</div>
+ ${message?`<div class="notice" style="margin-bottom:14px">${escapeHtml(message)}</div>`:""}
+ <div class="notice" style="margin-bottom:16px"><b>Padrão recomendado para vídeos:</b> MP4, H.264 Baseline/Main, 30 fps, 16:9 horizontal ou vertical conforme a campanha; áudio AAC-LC. Esta primeira versão faz upload e cadastro, mas ainda não converte automaticamente nem analisa o codec internamente. Envie os arquivos já convertidos e testados.</div>
+ <div class="card"><h2>Enviar nova mídia</h2>
+ <form id="mediaUploadForm">
+ <div class="formgrid">
+ <div class="field"><label for="mediaName">Nome da mídia</label><input id="mediaName" name="name" required maxlength="120" placeholder="Ex.: MayCup — vídeo vertical"></div>
+ <div class="field"><label for="mediaFile">Arquivo (MP4 ou imagem)</label><input id="mediaFile" name="file" type="file" accept="video/mp4,.mp4,image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" required></div>
+ </div>
+ <div id="mediaLocalPreview" style="margin:12px 0"></div>
+ <div class="toolbar"><button class="primary" id="mediaUploadButton" type="submit">Enviar para biblioteca</button><span class="muted">Vídeo MP4 até 200 MB; imagem até 20 MB.</span></div>
+ <div id="mediaUploadStatus" class="authmessage" role="status"></div>
+ </form></div>
+ <div class="card" style="margin-top:16px"><div class="toolbar" style="justify-content:space-between"><h2 style="margin:0">Mídias cadastradas</h2><button class="secondary" id="mediaRefreshButton" type="button">Atualizar lista</button></div>
+ <div id="mediaTable"><div class="empty">Carregando mídias…</div></div>
+ <div id="mediaPreview" style="margin-top:14px"></div></div>`;
+ const form=document.getElementById('mediaUploadForm');
+ const fileInput=document.getElementById('mediaFile');
+ fileInput.onchange=()=>{
+  const file=fileInput.files?.[0];const holder=document.getElementById('mediaLocalPreview');
+  if(!file){holder.innerHTML='';return;}
+  const url=URL.createObjectURL(file);
+  if(file.type.startsWith('video/')) holder.innerHTML=`<video controls playsinline style="width:100%;max-width:420px;max-height:320px;border-radius:10px;background:#000" src="${url}"></video><div class="muted">Prévia local · ${escapeHtml(file.name)} · ${(file.size/1048576).toFixed(1)} MB</div>`;
+  else if(file.type.startsWith('image/')) holder.innerHTML=`<img alt="Prévia da imagem" style="max-width:100%;max-height:240px;border-radius:10px" src="${url}"><div class="muted">Prévia local · ${escapeHtml(file.name)} · ${(file.size/1048576).toFixed(1)} MB</div>`;
+  else holder.innerHTML=`<div class="notice">Formato não reconhecido. Selecione MP4, JPG, PNG ou WebP.</div>`;
+ };
+ document.getElementById('mediaRefreshButton').onclick=()=>loadMediaLibrary();
+ form.onsubmit=async e=>{
+  e.preventDefault();
+  const button=document.getElementById('mediaUploadButton');const status=document.getElementById('mediaUploadStatus');
+  const name=document.getElementById('mediaName').value.trim();const file=fileInput.files?.[0];
+  if(!name||!file){status.textContent='Informe o nome e escolha um arquivo.';return;}
+  const isVideo=file.type==='video/mp4'||file.name.toLowerCase().endsWith('.mp4');
+  const isImage=['image/jpeg','image/png','image/webp'].includes(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name);
+  if(!isVideo&&!isImage){status.textContent='Formato não aceito. Use MP4, JPG, PNG ou WebP.';return;}
+  const limit=isVideo?200*1024*1024:20*1024*1024;
+  if(file.size>limit){status.textContent=`Arquivo acima do limite de ${(limit/1048576)} MB.`;return;}
+  const mime=isVideo?'video/mp4':(file.type||'image/jpeg');
+  button.disabled=true;button.textContent='Enviando…';status.textContent='Enviando arquivo e registrando mídia…';
+  let storagePath=null;
+  try{
+   const safeName=file.name.normalize('NFKD').replace(/[^\w.-]+/g,'_').slice(-100)||'media';
+   const day=new Date().toISOString().slice(0,10);
+   storagePath=`${day}/${crypto.randomUUID()}-${safeName}`;
+   const {error:uploadError}=await supabaseClient.storage.from('ubpop-media').upload(storagePath,file,{contentType:mime,upsert:false});
+   if(uploadError)throw uploadError;
+   const metadata={name,storage_bucket:'ubpop-media',storage_path:storagePath,asset_type:isVideo?'video':'image',mime_type:mime,file_size_bytes:file.size,duration_seconds:null,active:true};
+   if(isVideo){
+    try{const url=URL.createObjectURL(file);const duration=await new Promise(resolve=>{const v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=()=>{resolve(Number.isFinite(v.duration)?Math.round(v.duration):null);URL.revokeObjectURL(url);};v.onerror=()=>{resolve(null);URL.revokeObjectURL(url);};v.src=url;});metadata.duration_seconds=duration;}catch{}
+   }
+   const {error:insertError}=await supabaseClient.from('media_assets').insert(metadata);
+   if(insertError){await supabaseClient.storage.from('ubpop-media').remove([storagePath]);storagePath=null;throw insertError;}
+   form.reset();document.getElementById('mediaLocalPreview').innerHTML='';
+   await loadMediaLibrary();
+   alert('Mídia enviada e cadastrada na Biblioteca.');
+  }catch(err){status.textContent='Não foi possível enviar: '+(err?.message||'erro desconhecido');}
+  finally{button.disabled=false;button.textContent='Enviar para biblioteca';}
+ };
+ await loadMediaLibrary();
+}
+
+async function loadMediaLibrary(){
+ const target=document.getElementById('mediaTable');if(!target)return;
+ target.innerHTML='<div class="empty">Atualizando lista…</div>';
+ const {data,error}=await supabaseClient.from('media_assets').select('id,name,asset_type,mime_type,file_size_bytes,duration_seconds,active,storage_bucket,storage_path,created_at').order('created_at',{ascending:false});
+ if(error){target.innerHTML=`<div class="notice">Não foi possível carregar a biblioteca: ${escapeHtml(error.message)}</div>`;return;}
+ if(!data?.length){target.innerHTML='<div class="empty">Nenhuma mídia cadastrada.</div>';return;}
+ target.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Nome</th><th>Tipo</th><th>Tamanho</th><th>Duração</th><th>Status</th><th>Ações</th></tr></thead><tbody>${data.map(m=>`<tr><td>${escapeHtml(m.name)}</td><td>${m.asset_type==='video'?'Vídeo':'Imagem'}<div class="muted">${escapeHtml(m.mime_type||'')}</div></td><td>${m.file_size_bytes?`${(m.file_size_bytes/1048576).toFixed(1)} MB`:'—'}</td><td>${m.duration_seconds!=null?`${m.duration_seconds}s`:'—'}</td><td><span class="pill" style="${m.active?'':'background:#fff1f0;color:#a33'}">${m.active?'Ativa':'Inativa'}</span></td><td><div class="actions"><button class="secondary" onclick="ubpopPreviewMedia('${escapeHtml(m.id)}','${m.asset_type}')">Pré-visualizar</button><button class="secondary" onclick="ubpopReplaceMedia('${escapeHtml(m.id)}','${m.asset_type}')">Substituir arquivo</button><button class="${m.active?'danger':'secondary'}" onclick="ubpopToggleMedia('${escapeHtml(m.id)}',${!m.active})">${m.active?'Desativar':'Ativar'}</button></div></td></tr>`).join('')}</tbody></table></div>`;
+}
+
+window.ubpopPreviewMedia=async function(id,type){
+ const {data,error}=await supabaseClient.from('media_assets').select('name,storage_bucket,storage_path').eq('id',id).maybeSingle();
+ if(error||!data){alert('Não foi possível localizar essa mídia.');return;}
+ const {data:link,error:linkError}=await supabaseClient.storage.from(data.storage_bucket).createSignedUrl(data.storage_path,600);
+ if(linkError||!link?.signedUrl){alert('Não foi possível gerar a prévia: '+(linkError?.message||''));return;}
+ const box=document.getElementById('mediaPreview');if(!box)return;
+ box.innerHTML=`<div class="card"><h2>Prévia: ${escapeHtml(data.name)}</h2>${type==='video'?`<video controls playsinline style="width:100%;max-width:720px;max-height:420px;background:#000;border-radius:10px" src="${escapeHtml(link.signedUrl)}"></video>`:`<img alt="${escapeHtml(data.name)}" style="max-width:100%;max-height:420px;border-radius:10px" src="${escapeHtml(link.signedUrl)}">`}<div class="muted">Link temporário de pré-visualização, válido por 10 minutos.</div></div>`;
+};
+
+window.ubpopReplaceMedia=async function(id,type){
+ const current=await supabaseClient.from('media_assets').select('id,name,storage_bucket,storage_path,asset_type').eq('id',id).maybeSingle();
+ if(current.error||!current.data){alert('Não foi possível localizar a mídia para substituição.');return;}
+ const old=current.data;
+ const picker=document.createElement('input');picker.type='file';
+ picker.accept=type==='video'?'video/mp4,.mp4':'image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp';
+ picker.onchange=async()=>{
+  const file=picker.files?.[0];if(!file)return;
+  const isVideo=type==='video';
+  const valid=isVideo?(file.type==='video/mp4'||/\.mp4$/i.test(file.name)):(['image/jpeg','image/png','image/webp'].includes(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name));
+  const limit=isVideo?200*1024*1024:20*1024*1024;
+  if(!valid){alert(isVideo?'Escolha um vídeo MP4.':'Escolha uma imagem JPG, PNG ou WebP.');return;}
+  if(file.size>limit){alert(`Arquivo acima do limite de ${(limit/1048576)} MB.`);return;}
+  if(!confirm(`Substituir o arquivo de "${old.name}"? A programação continuará usando o mesmo cadastro de mídia.`))return;
+  const safeName=file.name.normalize('NFKD').replace(/[^\w.-]+/g,'_').slice(-100)||'media';
+  const day=new Date().toISOString().slice(0,10);const newPath=`${day}/${crypto.randomUUID()}-${safeName}`;
+  const mime=isVideo?'video/mp4':(file.type||'image/jpeg');
+  try{
+   const {error:uploadError}=await supabaseClient.storage.from(old.storage_bucket).upload(newPath,file,{contentType:mime,upsert:false});
+   if(uploadError)throw uploadError;
+   const updates={storage_path:newPath,mime_type:mime,file_size_bytes:file.size};
+   if(isVideo){updates.duration_seconds=await new Promise(resolve=>{const url=URL.createObjectURL(file);const v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=()=>{const d=Number.isFinite(v.duration)?Math.round(v.duration):null;URL.revokeObjectURL(url);resolve(d);};v.onerror=()=>{URL.revokeObjectURL(url);resolve(null);};v.src=url;});}
+   else updates.duration_seconds=null;
+   const {error:updateError}=await supabaseClient.from('media_assets').update(updates).eq('id',id);
+   if(updateError){await supabaseClient.storage.from(old.storage_bucket).remove([newPath]);throw updateError;}
+   if(old.storage_path&&old.storage_path!==newPath)await supabaseClient.storage.from(old.storage_bucket).remove([old.storage_path]);
+   await loadMediaLibrary();alert('Arquivo substituído com sucesso.');
+  }catch(err){alert('Não foi possível substituir o arquivo: '+(err?.message||'erro desconhecido'));}
+ };
+ picker.click();
+};
+
+window.ubpopToggleMedia=async function(id,active){
+ const action=active?'ativar':'desativar';if(!confirm(`Confirma ${action} esta mídia?`))return;
+ const {error}=await supabaseClient.from('media_assets').update({active}).eq('id',id);
+ if(error){alert('Não foi possível alterar o status: '+error.message);return;}
+ await loadMediaLibrary();
+};
+
+function render(){
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ if(page==="inicio"){app.innerHTML=`<h1>Visão geral</h1><div class="sub">Resumo da operação. Anunciantes e estabelecimentos são consultados no Supabase; as demais áreas ainda incluem módulos locais de demonstração.</div><div class="grid">${[['Anunciantes',count('anunciantes')],['Estabelecimentos',count('lojas')],['Segmentos',count('segmentos')],['Produtos e serviços',count('produtos')],['Campanhas',count('campanhas')],['Veículos',count('veiculos')],['Itens na grade',count('grade')],['Encaminhamentos',count('encaminhamentos')]].map(x=>`<div class="card"><div class="muted">${x[0]}</div><div class="metric">${x[1]}</div><div class="muted">Registros disponíveis</div></div>`).join('')}</div><div class="notice"><b>Estado do painel:</b> login, anunciantes, estabelecimentos e gestão de QR Codes V6 conectados ao Supabase. Campanhas, programação, veículos e outros módulos ainda incluem áreas demonstrativas locais.</div>`;
+ return;}
+ if(page==="anunciantes"){renderAdvertisers();return;}
+ if(page==="lojas"){renderEstablishments();return;}
+ if(page==="catalogos"){renderCatalogManagement();return;}
+ if(page==="qrcodes"){renderQrManagement();return;}
+ if(page==="midias"){renderMediaLibrary();return;}
+ if(page==="grade"){app.innerHTML=`<h1>${titles[page]}</h1><div class="sub">Uma estrutura de grade compartilhada. Os conteúdos regionais serão carregados conforme a região do veículo.</div><div class="card"><h2>Sequência de exibição</h2><div id="gradeRows">${db.grade.map((g,i)=>`<div style="display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0"><b>${String(i+1).padStart(2,'0')}</b><div style="flex:1"><b>${g.tipo}</b><div class="muted">${g.conteudo}</div></div><div class="actions"><button class="secondary" onclick="moveGrade(${i},-1)">↑</button><button class="secondary" onclick="moveGrade(${i},1)">↓</button><button class="danger" onclick="removeGrade(${i})">Excluir</button></div></div>`).join('')}</div><div class="toolbar"><select id="gt"><option>Publicidade interativa</option><option>Publicidade simples</option><option>Conteúdo interativo</option><option>Catálogo central</option></select><input id="gc" placeholder="Nome do conteúdo"><button class="primary" onclick="addGrade()">Adicionar à grade</button></div><button class="primary" onclick="save();alert('Grade salva neste protótipo.')">Salvar grade</button></div>`;return;}
+ if(page==="conteudos"){app.innerHTML=`<h1>${titles[page]}</h1><div class="sub">Ativação e configuração dos módulos de informação.</div><div class="grid">${['Previsão do tempo','Notícias','Futebol','Resultados de loterias'].map((n)=>`<div class="card"><b>${n}</b><p class="muted">Fonte externa e atualização automática ainda precisam ser configuradas.</p><label><input type="checkbox" checked> Ativar módulo</label></div>`).join('')}</div><div class="notice">O protótipo não consulta fontes externas nem publica notícias ou resultados. Essas integrações serão configuradas e testadas na etapa de backend.</div>`;return;}
+ if(page==="relatorios"){renderReports();return;}
+ const configs={
+ lojas:{label:"estabelecimentos",fields:[["nome","Nome do estabelecimento"],["segmento","Segmento"],["regiao","Região"],["whatsapp","WhatsApp"],["instagram","Instagram"],["link","Site ou catálogo externo"]]},
+ segmentos:{label:"segmentos",fields:[["nome","Nome do segmento"]]},
+ produtos:{label:"produtos e serviços",fields:[["nome","Nome do produto/serviço"],["loja","Estabelecimento"],["preco","Preço (opcional)"],["descricao","Descrição"],["link","Link comercial"]]},
+ campanhas:{label:"campanhas",fields:[["nome","Nome da campanha"],["anunciante","Anunciante"],["tipo","Tipo",["Publicidade interativa","Publicidade simples","Institucional"]],["inicio","Data de início"],["fim","Data de encerramento"],["destino","Destino do toque"]]},
+ regioes:{label:"regiões",fields:[["nome","Nome da região"],["estado","Estado"]]},
+ veiculos:{label:"veículos e telas",fields:[["identificacao","Identificação do veículo"],["regiao","Região"],["tela","Identificação da tela"],["status","Situação",["Ativo","Inativo"]]]},
+ encaminhamentos:{label:"encaminhamentos",fields:[["loja","Estabelecimento"],["origem","Origem/campanha"],["data","Data"],["situacao","Situação",["Registrado","Venda confirmada","Cancelado"]]]},
+ usuarios:{label:"usuários e permissões",fields:[["nome","Nome"],["email","E-mail"],["perfil","Perfil",["Administrador","Operacional","Comercial","Financeiro","Conteúdo"]]]}
+ };
+ const c=configs[page];if(!c){app.innerHTML="<div class='notice'>Área ainda não configurada.</div>";return;}
+ const rows=db[page]||[];
+ app.innerHTML=`<h1>${titles[page]}</h1><div class="sub">Cadastre e administre ${c.label} em um único painel.</div><div class="card"><h2>Novo cadastro</h2><form id="form" class="formgrid">${c.fields.map(f=>`<div class="field"><label>${f[1]}</label>${f[2]?`<select name="${f[0]}">${f[2].map(o=>`<option>${o}</option>`).join('')}</select>`:`<input name="${f[0]}" ${f[0]==='preco'?'type="number" step="0.01"':''} ${f[0]==='inicio'||f[0]==='fim'||f[0]==='data'?'type="date"':''} placeholder="${f[1]}" ${f[0]==='nome'?'required':''}>`}</div>`).join('')}<div class="field" style="grid-column:1/-1"><button class="primary">Salvar cadastro</button></div></form></div><div class="card" style="margin-top:16px"><h2>Registros cadastrados (${rows.length})</h2>${rows.length?`<div style="overflow:auto"><table><thead><tr>${c.fields.slice(0,4).map(f=>`<th>${f[1]}</th>`).join('')}<th>Ações</th></tr></thead><tbody>${rows.map((r,i)=>`<tr>${c.fields.slice(0,4).map(f=>`<td>${escapeHtml(r[f[0]]||'—')}</td>`).join('')}<td><button class="danger" onclick="del('${page}',${i})">Excluir</button></td></tr>`).join('')}</tbody></table></div>`:`<div class="empty">Nenhum registro cadastrado.</div>`}</div>`;
+ document.getElementById("form").onsubmit=e=>{
+  e.preventDefault();
+  const obj=Object.fromEntries(new FormData(e.target).entries());
+  if(!Array.isArray(db[page])) db[page]=[];
+  db[page].push(obj);
+  try { save(); render(); alert("Cadastro salvo neste protótipo local."); }
+  catch(err) { db[page].pop(); alert("Não foi possível salvar neste navegador. Verifique o espaço disponível e tente novamente."); }
+ };
+}
+
+function del(p,i){if(confirm('Excluir este registro?')){db[p].splice(i,1);save();render();}}
+function addGrade(){let t=document.getElementById('gt').value,c=document.getElementById('gc').value.trim();if(!c){alert('Informe o nome do conteúdo.');return;}db.grade.push({tipo:t,conteudo:c});save();render();}
+function removeGrade(i){db.grade.splice(i,1);save();render();}
+function moveGrade(i,d){let j=i+d;if(j<0||j>=db.grade.length)return;[db.grade[i],db.grade[j]]=[db.grade[j],db.grade[i]];save();render();}
+const mainLayout=document.getElementById("mainLayout");
+const menuToggle=document.getElementById("menuToggle");
+if(menuToggle){
+  if(window.matchMedia("(max-width:850px)").matches){
+    mainLayout.classList.add("menu-hidden");
+    menuToggle.setAttribute("aria-expanded","false");
+  }
+  menuToggle.addEventListener("click",()=>{
+    const isVisible=mainLayout.classList.toggle("menu-visible");
+    mainLayout.classList.toggle("menu-hidden",!isVisible);
+    menuToggle.setAttribute("aria-expanded",String(isVisible));
+  });
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  page=b.dataset.page;
+  render();
+  if(window.matchMedia("(max-width:850px)").matches){
+    mainLayout.classList.remove("menu-visible");
+    mainLayout.classList.add("menu-hidden");
+    menuToggle?.setAttribute("aria-expanded","false");
+  }
+});
+
+async function startApp(){
+ const {data,error}=await supabaseClient.auth.getSession();
+ if(error){showLogin("Não foi possível verificar a sessão: "+error.message);return;}
+ if(data.session){await verifyAdmin(data.session.user);}
+ else{showLogin();}
+}
+startApp();
+</script>
+</body>
+</html>
